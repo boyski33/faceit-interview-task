@@ -1,7 +1,10 @@
 package com.interview.faceit.usersservice.core;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class User {
   private final UUID id;
   private final String firstName;
