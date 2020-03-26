@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -17,16 +16,16 @@ public class UserService {
   }
 
   public User addUser(User user) {
-
+    return userRepository.addUser(user);
   }
 
-  public User modifyUser(User user) {
+//  public User modifyUser(User user) {
+//
+//  }
 
-  }
-
-  public User removeUser(UUID userId) {
-
-  }
+//  public User removeUser(UUID userId) {
+//
+//  }
 
 //  public List<User> queryUsers() {
 // todo
