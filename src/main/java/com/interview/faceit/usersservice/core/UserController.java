@@ -1,4 +1,4 @@
-package com.interview.faceit.usersservice.web;
+package com.interview.faceit.usersservice.core;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
