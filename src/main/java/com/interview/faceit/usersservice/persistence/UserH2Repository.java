@@ -4,12 +4,12 @@ import com.interview.faceit.usersservice.core.User;
 import com.interview.faceit.usersservice.core.UserAintAlrightException;
 import com.interview.faceit.usersservice.core.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -43,8 +43,10 @@ public class UserH2Repository implements UserRepository {
   }
 
   @Override
-  public User removeUser(UUID userId) {
-    List<UserEntity> users = store.removeAllById(userId);
+  public User removeUser(String userId, String nickname) {
+    List<UserEntity> users = (userId == null) ?
+        store.removeAllByNickname(nickname) :
+        store.removeAllById(UUID.fromString(userId));
 
     if (users.size() != 1) {
       throw new UserPersistenceException();

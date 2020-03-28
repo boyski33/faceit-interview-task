@@ -29,9 +29,12 @@ public class UserController {
     return ResponseEntity.ok(addedUser);
   }
 
-  @DeleteMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<User> removeUser(@PathVariable("userId") String userId) {
-    User removedUser = userService.removeUser(userId);
+  @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<User> removeUser(
+      @RequestParam(required = false) String id,
+      @RequestParam(required = false) String nickname) {
+
+    User removedUser = userService.removeUser(id, nickname);
 
     return ResponseEntity.ok(removedUser);
   }

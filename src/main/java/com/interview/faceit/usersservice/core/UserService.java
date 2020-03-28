@@ -29,9 +29,8 @@ public class UserService {
 //
 //  }
 
-  public User removeUser(String userId) {
-    UUID uuid = UUID.fromString(userId); // todo handle format exception
-    User deletedUser = userRepository.removeUser(uuid);
+  public User removeUser(String userId, String nickname) {
+    User deletedUser = userRepository.removeUser(userId, nickname);
     notificationService.notifyUserDeleted(deletedUser);
 
     return deletedUser;

@@ -10,5 +10,5 @@ public interface UserRepository {
 
   User modifyUser(User user);
 
-  User removeUser(UUID userId);
+  User removeUser(String id, String nickname);
 }
