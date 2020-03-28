@@ -18,6 +18,9 @@ public class UserEntity {
   private String email;
   private String country;
 
+  public UserEntity() {
+  }
+
   public UserEntity(UUID id,
                     String firstName,
                     String lastName,

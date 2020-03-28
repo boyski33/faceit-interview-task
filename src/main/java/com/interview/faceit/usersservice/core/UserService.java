@@ -3,29 +3,39 @@ package com.interview.faceit.usersservice.core;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
 
   private UserRepository userRepository;
+  private NotificationService notificationService;
 
   @Autowired
-  public UserService(UserRepository userRepository) {
+  public UserService(UserRepository userRepository,
+                     NotificationService notificationService) {
     this.userRepository = userRepository;
+    this.notificationService = notificationService;
   }
 
   public User addUser(User user) {
-    return userRepository.addUser(user);
+    User addedUser = userRepository.addUser(user);
+    notificationService.notifyUserAdded(user);
+
+    return addedUser;
   }
 
 //  public User modifyUser(User user) {
 //
 //  }
 
-//  public User removeUser(UUID userId) {
-//
-//  }
+  public User removeUser(String userId) {
+    UUID uuid = UUID.fromString(userId); // todo handle format exception
+    User deletedUser = userRepository.removeUser(uuid);
+    notificationService.notifyUserDeleted(deletedUser);
+
+    return deletedUser;
+  }
 
 //  public List<User> queryUsers() {
 // todo

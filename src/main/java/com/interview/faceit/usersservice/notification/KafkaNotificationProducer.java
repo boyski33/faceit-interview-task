@@ -24,4 +24,9 @@ public class KafkaNotificationProducer implements NotificationService {
   public void notifyUserModified(User user) {
     // todo
   }
+
+  @Override
+  public void notifyUserDeleted(User user) {
+    // todo
+  }
 }

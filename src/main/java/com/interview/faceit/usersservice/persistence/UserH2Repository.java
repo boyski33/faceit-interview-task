@@ -1,15 +1,19 @@
 package com.interview.faceit.usersservice.persistence;
 
 import com.interview.faceit.usersservice.core.User;
+import com.interview.faceit.usersservice.core.UserAintAlrightException;
 import com.interview.faceit.usersservice.core.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Repository
+@Transactional
 public class UserH2Repository implements UserRepository {
   private UserH2Store store;
 
@@ -25,9 +29,12 @@ public class UserH2Repository implements UserRepository {
 
   @Override
   public User addUser(User user) {
-    UserEntity persistedUser = store.save(UserEntity.fromDomainObject(user));
-
-    return persistedUser.toDomainObject();
+    try {
+      UserEntity persistedUser = store.save(UserEntity.fromDomainObject(user));
+      return persistedUser.toDomainObject();
+    } catch (ConstraintViolationException e) {
+      throw new UserAintAlrightException();
+    }
   }
 
   @Override
@@ -37,7 +44,12 @@ public class UserH2Repository implements UserRepository {
 
   @Override
   public User removeUser(UUID userId) {
-    return null;
-  }
+    List<UserEntity> users = store.removeAllById(userId);
 
+    if (users.size() != 1) {
+      throw new UserPersistenceException();
+    }
+
+    return users.get(0).toDomainObject();
+  }
 }

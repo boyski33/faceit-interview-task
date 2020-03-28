@@ -6,4 +6,5 @@ public interface NotificationService {
 
   void notifyUserModified(User user);
 
+  void notifyUserDeleted(User user);
 }
