@@ -16,6 +16,8 @@ public interface UserH2Store extends CrudRepository<UserEntity, UUID>, JpaSpecif
   @Override
   Optional<UserEntity> findById(UUID uuid);
 
+  List<UserEntity> findAll(Specification<UserEntity> spec);
+
   @Override
   <U extends UserEntity> U save(U user);
 

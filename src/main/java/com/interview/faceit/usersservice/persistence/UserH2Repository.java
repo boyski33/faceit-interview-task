@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 @Transactional
@@ -22,9 +23,21 @@ public class UserH2Repository implements UserRepository {
     this.store = store;
   }
 
+
   @Override
-  public User getUserById(UUID id) {
-    return null;
+  public List<User> getUsers(UUID id,
+                             String nickname,
+                             String firstName,
+                             String lastName,
+                             String email,
+                             String country) {
+    Specification<UserEntity> userSpec = Specification
+        .where(new UserEntityWithId(id))
+        .and(new UserEntityWithNickname(nickname));
+
+    return store.findAll(userSpec).stream()
+        .map(UserEntity::toDomainObject)
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -43,10 +56,10 @@ public class UserH2Repository implements UserRepository {
   }
 
   @Override
-  public User removeUser(String userId, String nickname) {
+  public User removeUser(UUID userId, String nickname) {
     List<UserEntity> users = (userId == null) ?
         store.removeAllByNickname(nickname) :
-        store.removeAllById(UUID.fromString(userId));
+        store.removeAllById(userId);
 
     if (users.size() != 1) {
       throw new UserPersistenceException();
