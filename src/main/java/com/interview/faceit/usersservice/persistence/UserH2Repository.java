@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -56,8 +57,16 @@ public class UserH2Repository implements UserRepository {
   }
 
   @Override
-  public User modifyUser(User user) {
-    return null;
+  public User modifyUser(UUID id, User user) {
+    if (!store.existsById(id)) {
+      // todo throw user doesn't exist to be updated
+      throw new UserPersistenceException();
+    }
+
+    UserEntity e = UserEntity.fromDomainObject(user);
+    e.setId(id);
+
+    return store.save(e).toDomainObject();
   }
 
   @Override
@@ -69,7 +78,6 @@ public class UserH2Repository implements UserRepository {
     if (users.size() != 1) {
       throw new UserPersistenceException();
     }
-
     return users.get(0).toDomainObject();
   }
 }

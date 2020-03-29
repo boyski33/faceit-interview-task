@@ -9,7 +9,7 @@ public interface UserRepository {
 
   User addUser(User user);
 
-  User modifyUser(User user);
+  User modifyUser(UUID id, User user);
 
   User removeUser(UUID id, String nickname);
 }

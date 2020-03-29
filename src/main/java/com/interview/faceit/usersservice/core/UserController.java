@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -54,7 +53,14 @@ public class UserController {
     return ResponseEntity.created(userUri).body(addedUser);
   }
 
-//  public ResponseEntity<User> updateUser()
+  @PutMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<User> updateUser(@PathVariable("userId") String userId,
+                                         @RequestBody @Valid User user) {
+
+    User updatedUser = userService.modifyUser(userId, user);
+
+    return ResponseEntity.ok(updatedUser);
+  }
 
   @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<User> removeUser(
