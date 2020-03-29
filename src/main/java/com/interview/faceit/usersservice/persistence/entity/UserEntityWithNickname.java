@@ -22,5 +22,4 @@ public class UserEntityWithNickname implements Specification<UserEntity> {
     }
     return criteriaBuilder.equal(root.get("nickname"), nickname);
   }
-
 }

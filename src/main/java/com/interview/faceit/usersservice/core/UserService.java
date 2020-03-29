@@ -31,6 +31,16 @@ public class UserService {
     return userRepository.getUsers(uuid, nickname, firstName, lastName, email, country);
   }
 
+  public User getUserById(String id) {
+    List<User> users = getUsers(id, null, null, null, null, null);
+
+    if (users.isEmpty()) {
+      // todo throw 404
+    }
+
+    return users.get(0);
+  }
+
   public User addUser(User user) {
     User addedUser = userRepository.addUser(user);
     notificationService.notifyUserAdded(user);

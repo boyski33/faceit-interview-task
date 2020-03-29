@@ -31,6 +31,7 @@ public class UserH2Repository implements UserRepository {
                              String lastName,
                              String email,
                              String country) {
+
     Specification<UserEntity> userSpec = Specification
         .where(new UserEntityWithId(id))
         .and(new UserEntityWithNickname(nickname))

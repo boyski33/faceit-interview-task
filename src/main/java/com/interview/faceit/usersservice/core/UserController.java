@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -38,12 +39,22 @@ public class UserController {
     return ResponseEntity.ok(users);
   }
 
+  @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<User> getUserById(@PathVariable("userId") String userId) {
+    User user = userService.getUserById(userId);
+
+    return ResponseEntity.ok(user);
+  }
+
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<User> addUser(@RequestBody @Valid User user) {
     User addedUser = userService.addUser(user);
+    URI userUri = URI.create(String.format("/users/%s", addedUser.getId().toString()));
 
-    return ResponseEntity.ok(addedUser);
+    return ResponseEntity.created(userUri).body(addedUser);
   }
+
+//  public ResponseEntity<User> updateUser()
 
   @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<User> removeUser(

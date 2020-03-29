@@ -22,6 +22,5 @@ public class UserEntityWithLastName implements Specification<UserEntity> {
       return cb.isTrue(cb.literal(true));
     }
     return cb.like(cb.lower(root.get("lastName")), String.format("%%%s%%", lastName.toLowerCase()));
-
   }
 }
