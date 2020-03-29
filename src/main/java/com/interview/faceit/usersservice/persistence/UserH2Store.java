@@ -1,5 +1,6 @@
 package com.interview.faceit.usersservice.persistence;
 
+import com.interview.faceit.usersservice.persistence.entity.UserEntity;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;

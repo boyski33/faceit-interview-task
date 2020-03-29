@@ -1,4 +1,4 @@
-package com.interview.faceit.usersservice.persistence;
+package com.interview.faceit.usersservice.persistence.entity;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -6,21 +6,22 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.UUID;
 
-public class UserEntityWithNickname implements Specification<UserEntity> {
+public class UserEntityWithId implements Specification<UserEntity> {
 
-  private String nickname;
+  private UUID id;
 
-  public UserEntityWithNickname(String nickname) {
-    this.nickname = nickname;
+  public UserEntityWithId(UUID id) {
+    this.id = id;
   }
 
   @Override
   public Predicate toPredicate(Root<UserEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-    if (nickname == null) {
+    if (id == null) {
       return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
     }
-    return criteriaBuilder.equal(root.get("nickname"), nickname);
+    return criteriaBuilder.equal(root.get("id"), id);
   }
 
 }

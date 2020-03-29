@@ -3,6 +3,7 @@ package com.interview.faceit.usersservice.persistence;
 import com.interview.faceit.usersservice.core.User;
 import com.interview.faceit.usersservice.core.UserAintAlrightException;
 import com.interview.faceit.usersservice.core.UserRepository;
+import com.interview.faceit.usersservice.persistence.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -23,7 +24,6 @@ public class UserH2Repository implements UserRepository {
     this.store = store;
   }
 
-
   @Override
   public List<User> getUsers(UUID id,
                              String nickname,
@@ -33,7 +33,11 @@ public class UserH2Repository implements UserRepository {
                              String country) {
     Specification<UserEntity> userSpec = Specification
         .where(new UserEntityWithId(id))
-        .and(new UserEntityWithNickname(nickname));
+        .and(new UserEntityWithNickname(nickname))
+        .and(new UserEntityWithFirstName(firstName))
+        .and(new UserEntityWithLastName(lastName))
+        .and(new UserEntityWithEmail(email))
+        .and(new UserEntityWithCountry(country));
 
     return store.findAll(userSpec).stream()
         .map(UserEntity::toDomainObject)

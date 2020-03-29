@@ -1,4 +1,4 @@
-package com.interview.faceit.usersservice.persistence;
+package com.interview.faceit.usersservice.persistence.entity;
 
 import com.interview.faceit.usersservice.core.User;
 
@@ -104,7 +104,7 @@ public class UserEntity {
     this.country = country;
   }
 
-  static UserEntity fromDomainObject(User user) {
+  public static UserEntity fromDomainObject(User user) {
     return new UserEntity(
         user.getId(),
         user.getFirstName(),
@@ -116,7 +116,7 @@ public class UserEntity {
     );
   }
 
-  User toDomainObject() {
+  public User toDomainObject() {
     return new User(
         id,
         firstName,
