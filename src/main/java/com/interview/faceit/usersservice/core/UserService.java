@@ -65,11 +65,6 @@ public class UserService {
   public User modifyUser(String userId, User user) {
     UUID uuid = uuidFromString(userId);
 
-    if (user.getId() != null && !uuid.equals(user.getId())) {
-      // todo throw 400 ids don't match
-      throw new RuntimeException();
-    }
-
     return userRepository.modifyUser(uuid, user);
   }
 
