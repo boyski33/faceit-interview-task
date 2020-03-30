@@ -4,10 +4,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class User {
+
+  private static final String USERNAME_FORMAT_VIOLATION_MESSAGE =
+      "Username must be at least 3 alphanumeric characters. Underscores and hyphens allowed. No spaces allowed";
+
   private final UUID id;
   private final String firstName;
   private final String lastName;
@@ -45,6 +50,7 @@ public class User {
   }
 
   @NotBlank
+  @Pattern(regexp = "^[a-zA-Z0-9._-]{3,}$", message = USERNAME_FORMAT_VIOLATION_MESSAGE)
   public String getNickname() {
     return nickname;
   }

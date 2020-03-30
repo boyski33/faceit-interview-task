@@ -5,7 +5,7 @@ import com.interview.faceit.usersservice.core.User;
 import org.springframework.stereotype.Service;
 
 /**
- * A dummy class used as an example of publishing to a Kafka stream
+ * A dummy class used as an example of publishing to a Kafka topic
  * for notifying other microservices of a change of a user. As long as
  * the NotificationService interface is implemented, this class can
  * provide its own implementation. Other message brokers, such as
@@ -17,16 +17,13 @@ public class KafkaNotificationProducer implements NotificationService {
 
   @Override
   public void notifyUserAdded(User user) {
-    // todo
   }
 
   @Override
   public void notifyUserModified(User user) {
-    // todo
   }
 
   @Override
   public void notifyUserDeleted(User user) {
-    // todo
   }
 }
