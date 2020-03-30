@@ -1,7 +1,7 @@
 package com.interview.faceit.usersservice.persistence;
 
 import com.interview.faceit.usersservice.core.User;
-import com.interview.faceit.usersservice.core.UserAintAlrightException;
+import com.interview.faceit.usersservice.core.exceptions.UserNotFoundException;
 import com.interview.faceit.usersservice.core.UserRepository;
 import com.interview.faceit.usersservice.persistence.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Repository
 @Transactional
@@ -28,8 +27,14 @@ public class UserH2Repository implements UserRepository {
   }
 
   @Override
-  public Optional<User> getUserById(UUID id) {
-    return store.findById(id).map(UserEntity::toDomainObject);
+  public User getUserById(UUID id) throws UserNotFoundException {
+    Optional<UserEntity> user = store.findById(id);
+
+    if (user.isEmpty()) {
+      throw new UserNotFoundException();
+    }
+
+    return user.get().toDomainObject();
   }
 
   @Override
@@ -53,20 +58,16 @@ public class UserH2Repository implements UserRepository {
   }
 
   @Override
-  public User addUser(User user) {
-    try {
-      UserEntity persistedUser = store.save(UserEntity.fromDomainObject(user));
-      return persistedUser.toDomainObject();
-    } catch (ConstraintViolationException e) {
-      throw new UserAintAlrightException();
-    }
+  public User addUser(User user) throws ConstraintViolationException {
+    UserEntity persistedUser = store.save(UserEntity.fromDomainObject(user));
+
+    return persistedUser.toDomainObject();
   }
 
   @Override
   public User modifyUser(UUID id, User user) {
     if (!store.existsById(id)) {
-      // todo throw user doesn't exist to be updated
-      throw new UserPersistenceException();
+      throw new UserNotFoundException();
     }
 
     UserEntity e = UserEntity.fromDomainObject(user);
@@ -82,7 +83,7 @@ public class UserH2Repository implements UserRepository {
         store.removeAllById(userId);
 
     if (users.size() != 1) {
-      throw new UserPersistenceException();
+      throw new UserNotFoundException();
     }
     return users.get(0).toDomainObject();
   }

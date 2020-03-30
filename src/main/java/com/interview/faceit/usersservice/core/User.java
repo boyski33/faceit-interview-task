@@ -11,7 +11,7 @@ import java.util.UUID;
 public class User {
 
   private static final String USERNAME_FORMAT_VIOLATION_MESSAGE =
-      "Username must be at least 3 alphanumeric characters. Underscores and hyphens allowed. No spaces allowed";
+      "Username must be at least 3 alphanumeric characters. Underscores and hyphens allowed. No spaces allowed.";
 
   private final UUID id;
   private final String firstName;

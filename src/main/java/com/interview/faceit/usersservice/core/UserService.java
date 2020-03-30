@@ -1,5 +1,6 @@
 package com.interview.faceit.usersservice.core;
 
+import com.interview.faceit.usersservice.core.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +39,7 @@ public class UserService {
 
     if (pageNumber > 0 && pageNumber >= userPage.getTotalPages()) {
       // todo "page out of range"
-      throw new UserAintAlrightException();
+      throw new RuntimeException();
     }
 
     return userPage.stream().collect(Collectors.toList());
@@ -46,13 +47,8 @@ public class UserService {
 
   public User getUserById(String id) {
     UUID uuid = uuidFromString(id);
-    Optional<User> user = userRepository.getUserById(uuid);
 
-    if (user.isEmpty()) {
-      // todo throw 404
-      throw new RuntimeException();
-    }
-    return user.get();
+    return userRepository.getUserById(uuid);
   }
 
   public User addUser(User user) {
