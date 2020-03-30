@@ -5,6 +5,7 @@ import com.interview.faceit.usersservice.core.UserAintAlrightException;
 import com.interview.faceit.usersservice.core.UserRepository;
 import com.interview.faceit.usersservice.persistence.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -32,7 +33,7 @@ public class UserH2Repository implements UserRepository {
   }
 
   @Override
-  public List<User> getUsers(Pageable pageable,
+  public Page<User> getUsers(Pageable pageable,
                              UUID id,
                              String nickname,
                              String firstName,
@@ -48,9 +49,7 @@ public class UserH2Repository implements UserRepository {
         .and(new UserEntityWithEmail(email))
         .and(new UserEntityWithCountry(country));
 
-    return store.findAll(userSpec, pageable).stream()
-        .map(UserEntity::toDomainObject)
-        .collect(Collectors.toList());
+    return store.findAll(userSpec, pageable).map(UserEntity::toDomainObject);
   }
 
   @Override

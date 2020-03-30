@@ -1,5 +1,6 @@
 package com.interview.faceit.usersservice.core;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface UserRepository {
 
   Optional<User> getUserById(UUID id);
 
-  List<User> getUsers(Pageable pageable,
+  Page<User> getUsers(Pageable pageable,
                       UUID id,
                       String nickname,
                       String firstName,
