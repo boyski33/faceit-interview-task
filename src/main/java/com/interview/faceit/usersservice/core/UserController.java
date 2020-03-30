@@ -26,6 +26,8 @@ public class UserController {
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<User>> getUsers(
+      @RequestParam(required = false) int page,
+      @RequestParam(required = false) int size,
       @RequestParam(required = false) String id,
       @RequestParam(required = false) String nickname,
       @RequestParam(required = false) String firstName,

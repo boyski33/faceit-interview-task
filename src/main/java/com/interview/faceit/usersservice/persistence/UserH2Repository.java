@@ -26,6 +26,11 @@ public class UserH2Repository implements UserRepository {
   }
 
   @Override
+  public Optional<User> getUserById(UUID id) {
+    return store.findById(id).map(UserEntity::toDomainObject);
+  }
+
+  @Override
   public List<User> getUsers(UUID id,
                              String nickname,
                              String firstName,

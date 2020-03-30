@@ -1,7 +1,6 @@
 package com.interview.faceit.usersservice.persistence;
 
 import com.interview.faceit.usersservice.persistence.entity.UserEntity;
-import org.apache.tomcat.util.buf.UEncoder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;

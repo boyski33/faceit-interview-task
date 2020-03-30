@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,13 +33,14 @@ public class UserService {
   }
 
   public User getUserById(String id) {
-    List<User> users = getUsers(id, null, null, null, null, null);
+    UUID uuid = uuidFromString(id);
+    Optional<User> user = userRepository.getUserById(uuid);
 
-    if (users.isEmpty()) {
+    if (user.isEmpty()) {
       // todo throw 404
+      throw new RuntimeException();
     }
-
-    return users.get(0);
+    return user.get();
   }
 
   public User addUser(User user) {
