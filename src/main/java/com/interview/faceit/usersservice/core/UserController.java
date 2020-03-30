@@ -3,6 +3,7 @@ package com.interview.faceit.usersservice.core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,7 @@ public class UserController {
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<User>> getUsers(
-      @RequestParam(required = false) int page,
-      @RequestParam(required = false) int size,
+      Pageable pageable,
       @RequestParam(required = false) String id,
       @RequestParam(required = false) String nickname,
       @RequestParam(required = false) String firstName,
@@ -35,7 +35,7 @@ public class UserController {
       @RequestParam(required = false) String email,
       @RequestParam(required = false) String country) {
 
-    List<User> users = userService.getUsers(id, nickname, firstName, lastName, email, country);
+    List<User> users = userService.getUsers(pageable, id, nickname, firstName, lastName, email, country);
 
     return ResponseEntity.ok(users);
   }

@@ -1,6 +1,8 @@
 package com.interview.faceit.usersservice.persistence;
 
 import com.interview.faceit.usersservice.persistence.entity.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
@@ -17,7 +19,8 @@ public interface UserH2Store extends CrudRepository<UserEntity, UUID>, JpaSpecif
   @Override
   Optional<UserEntity> findById(UUID uuid);
 
-  List<UserEntity> findAll(Specification<UserEntity> spec);
+  @Override
+  Page<UserEntity> findAll(Specification<UserEntity> spec, Pageable pageable);
 
   @Override
   <U extends UserEntity> U save(U user);

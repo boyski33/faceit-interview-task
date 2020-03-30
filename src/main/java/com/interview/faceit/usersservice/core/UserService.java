@@ -1,6 +1,7 @@
 package com.interview.faceit.usersservice.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,8 @@ public class UserService {
     this.notificationService = notificationService;
   }
 
-  public List<User> getUsers(String id,
+  public List<User> getUsers(Pageable pageable,
+                             String id,
                              String nickname,
                              String firstName,
                              String lastName,
@@ -29,7 +31,7 @@ public class UserService {
 
     UUID uuid = uuidFromString(id);
 
-    return userRepository.getUsers(uuid, nickname, firstName, lastName, email, country);
+    return userRepository.getUsers(pageable, uuid, nickname, firstName, lastName, email, country);
   }
 
   public User getUserById(String id) {
