@@ -1,27 +1,35 @@
 package com.interview.faceit.usersservice.core.exceptions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
 
 @ControllerAdvice
-public class UserExceptionHandler extends ResponseEntityExceptionHandler {
+public class UserExceptionHandler {
 
-  @ResponseStatus(value = HttpStatus.NOT_FOUND)
+  private static final Logger LOGGER = LogManager.getLogger(UserExceptionHandler.class);
+
   @ExceptionHandler(UserNotFoundException.class)
-  public ResponseEntity<?> handleNotFoundException() {
-    return ResponseEntity.notFound().build();
+  public ResponseEntity<ApiError> handleNotFoundException(UserNotFoundException ex) {
+    ApiError error = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage());
+
+    LOGGER.error(ex);
+
+    return new ResponseEntity<>(error, error.getStatus());
   }
 
-  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<?> handleConstraintViolationException() {
-    return ResponseEntity.badRequest().body("Constraint violated!");
+  public ResponseEntity<ApiError> handleConstraintViolationException(ConstraintViolationException ex) {
+    ApiError error = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+
+    LOGGER.error(ex);
+
+    return new ResponseEntity<>(error, error.getStatus());
   }
 
 }

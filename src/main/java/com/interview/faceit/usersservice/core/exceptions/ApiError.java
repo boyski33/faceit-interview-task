@@ -8,26 +8,30 @@ import java.time.LocalDateTime;
 public class ApiError {
 
   private HttpStatus status;
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
   private LocalDateTime timestamp;
   private String message;
 
-  private ApiError(HttpStatus status) {
+  ApiError(HttpStatus status) {
     this.status = status;
     this.timestamp = LocalDateTime.now();
     this.message = "Unknown error";
   }
 
-  private ApiError(HttpStatus status, String message) {
+  ApiError(HttpStatus status, String message) {
     this(status);
     this.message = message;
   }
 
-  public static ApiError errorWithStatus(HttpStatus status) {
-    return new ApiError(status);
+  public HttpStatus getStatus() {
+    return status;
   }
 
-  public static ApiError errorWithStatusAndMessage(HttpStatus status, String message) {
-    return new ApiError(status, message);
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+  public LocalDateTime getTimestamp() {
+    return timestamp;
+  }
+
+  public String getMessage() {
+    return message;
   }
 }
