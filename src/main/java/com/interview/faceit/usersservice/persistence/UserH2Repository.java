@@ -33,7 +33,7 @@ public class UserH2Repository implements UserRepository {
     Optional<UserEntity> user = store.findById(id);
 
     if (user.isEmpty()) {
-      throw new UserNotFoundException(id.toString());
+      throw new UserNotFoundException();
     }
 
     return user.get().toDomainObject();
@@ -73,7 +73,7 @@ public class UserH2Repository implements UserRepository {
   @Override
   public User modifyUser(UUID id, User user) throws UserNotFoundException, ConstraintViolationException {
     if (!store.existsById(id)) {
-      throw new UserNotFoundException("modify error");
+      throw new UserNotFoundException();
     }
 
     UserEntity e = UserEntity.fromDomainObject(user);
@@ -88,13 +88,13 @@ public class UserH2Repository implements UserRepository {
 
   @Transactional
   @Override
-  public User removeUser(UUID userId, String nickname) throws UserNotFoundException {
-    List<UserEntity> users = (userId == null) ?
+  public User removeUser(UUID id, String nickname) throws UserNotFoundException {
+    List<UserEntity> users = (id == null) ?
         store.removeAllByNickname(nickname) :
-        store.removeAllById(userId);
+        store.removeAllById(id);
 
     if (users.size() != 1) {
-      throw new UserNotFoundException("remove error");
+      throw new UserNotFoundException();
     }
     return users.get(0).toDomainObject();
   }

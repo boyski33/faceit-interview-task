@@ -1,14 +1,9 @@
 package com.interview.faceit.usersservice.core.exceptions;
 
 public class UserNotFoundException extends RuntimeException {
-  private String userId;
 
-  public UserNotFoundException(String userId) {
-    super(String.format("User with ID %s doesn't exist", userId));
-    this.userId = userId;
+  public UserNotFoundException() {
+    super("User doesn't exist.");
   }
 
-  public String getUserId() {
-    return userId;
-  }
 }
