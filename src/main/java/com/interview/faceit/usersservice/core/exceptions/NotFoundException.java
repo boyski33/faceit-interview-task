@@ -1,8 +1,8 @@
 package com.interview.faceit.usersservice.core.exceptions;
 
-public class UserNotFoundException extends RuntimeException {
+public class NotFoundException extends RuntimeException {
 
-  public UserNotFoundException() {
+  public NotFoundException() {
     super("User doesn't exist.");
   }
 

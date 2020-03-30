@@ -1,13 +1,12 @@
 package com.interview.faceit.usersservice.core;
 
-import com.interview.faceit.usersservice.core.exceptions.UserNotFoundException;
+import com.interview.faceit.usersservice.core.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -36,10 +35,11 @@ public class UserService {
 
     Page<User> userPage = userRepository.getUsers(pageable, uuid, nickname, firstName, lastName, email, country);
     int pageNumber = pageable.getPageNumber();
+    int totalPages = userPage.getTotalPages();
 
-    if (pageNumber > 0 && pageNumber >= userPage.getTotalPages()) {
-      // todo "page out of range"
-      throw new RuntimeException();
+    if (pageNumber > 0 && pageNumber >= totalPages) {
+      String errMsg = String.format("Page %d out of range. Total number of pages is %d.", pageNumber, totalPages);
+      throw new BadRequestException(errMsg);
     }
 
     return userPage.stream().collect(Collectors.toList());
@@ -78,8 +78,12 @@ public class UserService {
       return null;
     }
 
-    // todo handle format exception
-    return UUID.fromString(id);
+    try {
+      return UUID.fromString(id);
+    } catch (IllegalArgumentException ex) {
+      String errMsg = String.format("ID: %s isn't a valid UUID format.", id);
+      throw new BadRequestException(errMsg);
+    }
   }
 
 }

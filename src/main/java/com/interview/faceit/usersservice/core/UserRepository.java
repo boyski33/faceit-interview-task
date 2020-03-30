@@ -1,15 +1,15 @@
 package com.interview.faceit.usersservice.core;
 
-import com.interview.faceit.usersservice.core.exceptions.UserNotFoundException;
+import com.interview.faceit.usersservice.core.exceptions.BadRequestException;
+import com.interview.faceit.usersservice.core.exceptions.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import javax.validation.ConstraintViolationException;
 import java.util.UUID;
 
 public interface UserRepository {
 
-  User getUserById(UUID id) throws UserNotFoundException;
+  User getUserById(UUID id) throws NotFoundException;
 
   Page<User> getUsers(Pageable pageable,
                       UUID id,
@@ -19,9 +19,9 @@ public interface UserRepository {
                       String email,
                       String country);
 
-  User addUser(User user) throws ConstraintViolationException;
+  User addUser(User user) throws BadRequestException;
 
-  User modifyUser(UUID id, User user) throws UserNotFoundException, ConstraintViolationException;
+  User modifyUser(UUID id, User user) throws NotFoundException, BadRequestException;
 
-  User removeUser(UUID id, String nickname) throws UserNotFoundException;
+  User removeUser(UUID id, String nickname) throws NotFoundException;
 }

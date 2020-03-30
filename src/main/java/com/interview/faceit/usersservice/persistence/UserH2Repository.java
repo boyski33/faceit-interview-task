@@ -1,7 +1,8 @@
 package com.interview.faceit.usersservice.persistence;
 
 import com.interview.faceit.usersservice.core.User;
-import com.interview.faceit.usersservice.core.exceptions.UserNotFoundException;
+import com.interview.faceit.usersservice.core.exceptions.BadRequestException;
+import com.interview.faceit.usersservice.core.exceptions.NotFoundException;
 import com.interview.faceit.usersservice.core.UserRepository;
 import com.interview.faceit.usersservice.persistence.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,11 @@ public class UserH2Repository implements UserRepository {
   }
 
   @Override
-  public User getUserById(UUID id) throws UserNotFoundException {
+  public User getUserById(UUID id) throws NotFoundException {
     Optional<UserEntity> user = store.findById(id);
 
     if (user.isEmpty()) {
-      throw new UserNotFoundException();
+      throw new NotFoundException();
     }
 
     return user.get().toDomainObject();
@@ -60,20 +61,20 @@ public class UserH2Repository implements UserRepository {
   }
 
   @Override
-  public User addUser(User user) throws ConstraintViolationException {
+  public User addUser(User user) throws BadRequestException {
     try {
       UserEntity persistedUser = store.save(UserEntity.fromDomainObject(user));
 
       return persistedUser.toDomainObject();
     } catch (DataIntegrityViolationException ex) {
-      throw new ConstraintViolationException(violatedConstraintMessage, null);
+      throw new BadRequestException(violatedConstraintMessage);
     }
   }
 
   @Override
-  public User modifyUser(UUID id, User user) throws UserNotFoundException, ConstraintViolationException {
+  public User modifyUser(UUID id, User user) throws NotFoundException, BadRequestException {
     if (!store.existsById(id)) {
-      throw new UserNotFoundException();
+      throw new NotFoundException();
     }
 
     UserEntity e = UserEntity.fromDomainObject(user);
@@ -82,19 +83,19 @@ public class UserH2Repository implements UserRepository {
     try {
       return store.save(e).toDomainObject();
     } catch (DataIntegrityViolationException ex) {
-      throw new ConstraintViolationException(violatedConstraintMessage, null);
+      throw new BadRequestException(violatedConstraintMessage);
     }
   }
 
   @Transactional
   @Override
-  public User removeUser(UUID id, String nickname) throws UserNotFoundException {
+  public User removeUser(UUID id, String nickname) throws NotFoundException {
     List<UserEntity> users = (id == null) ?
         store.removeAllByNickname(nickname) :
         store.removeAllById(id);
 
     if (users.size() != 1) {
-      throw new UserNotFoundException();
+      throw new NotFoundException();
     }
     return users.get(0).toDomainObject();
   }
