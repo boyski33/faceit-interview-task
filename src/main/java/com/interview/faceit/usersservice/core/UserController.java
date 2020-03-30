@@ -14,11 +14,12 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * A controller exposing a RESTful API.
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
-  private static final Logger LOG = LogManager.getLogger(UserController.class);
 
   private UserService userService;
 
@@ -27,6 +28,36 @@ public class UserController {
     this.userService = userService;
   }
 
+  /**
+   * Retrieve a pageable list of users matching certain criteria. The request takes
+   * multiple parameters which can be combined to make a more specific request.
+   * <p></p>
+   * A page param can be passed querying a specific page, and a size param setting
+   * the size of each retrieved page. If such values aren't provided, they default
+   * to {@code page=0} and {@code size=100}.
+   * <p></p>
+   * Example request:
+   *
+   * <pre>
+   *   GET /users?page=1&size=50&firstName=Boyan&country=UK
+   * </pre>
+   *
+   * A request with partial strings for firstName, lastName and country also works.
+   * Example request:
+   *
+   * <pre>
+   *   GET /users?firstName=Bo&country=Germ
+   * </pre>
+   *
+   * @param pageable  a pageable which values can be set with e.g. {@code ?page=0&size=10}
+   * @param id        UUID of the user
+   * @param nickname  nickname which has to match exactly
+   * @param firstName partial string of first name
+   * @param lastName  partial string of last name
+   * @param email     email in proper format
+   * @param country   partial string of country
+   * @return
+   */
   @ApiOperation(value = "Retrieve a pageable list of users by multiple criteria", response = ResponseEntity.class)
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved list of users"),

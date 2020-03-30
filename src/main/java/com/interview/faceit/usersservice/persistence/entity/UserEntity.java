@@ -7,6 +7,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
+/**
+ * A JPA entity representing the User class to be persisted in the database.
+ */
 @Entity
 @Table(name = "users")
 public class UserEntity {

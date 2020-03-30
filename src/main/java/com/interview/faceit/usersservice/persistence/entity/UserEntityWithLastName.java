@@ -17,7 +17,6 @@ public class UserEntityWithLastName implements Specification<UserEntity> {
 
   @Override
   public Predicate toPredicate(Root<UserEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-    // todo test with different params and verify which method is called
     if (lastName == null) {
       return cb.isTrue(cb.literal(true));
     }

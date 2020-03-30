@@ -37,6 +37,10 @@ public class UserService {
     int pageNumber = pageable.getPageNumber();
     int totalPages = userPage.getTotalPages();
 
+    /*
+      if the requested page is higher than the total number of pages
+      from the repository response, throws a BadRequest exception
+    */
     if (pageNumber > 0 && pageNumber >= totalPages) {
       String errMsg = String.format("Page %d out of range. Total number of pages is %d.", pageNumber, totalPages);
       throw new BadRequestException(errMsg);
@@ -61,7 +65,10 @@ public class UserService {
   public User modifyUser(String userId, User user) {
     UUID uuid = uuidFromString(userId);
 
-    return userRepository.modifyUser(uuid, user);
+    User modifiedUser = userRepository.modifyUser(uuid, user);
+    notificationService.notifyUserModified(user);
+
+    return modifiedUser;
   }
 
   public User removeUser(String id, String nickname) {

@@ -1,9 +1,9 @@
 package com.interview.faceit.usersservice.persistence;
 
 import com.interview.faceit.usersservice.core.User;
+import com.interview.faceit.usersservice.core.UserRepository;
 import com.interview.faceit.usersservice.core.exceptions.BadRequestException;
 import com.interview.faceit.usersservice.core.exceptions.NotFoundException;
-import com.interview.faceit.usersservice.core.UserRepository;
 import com.interview.faceit.usersservice.persistence.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,11 +13,18 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * A specific H2 implementation of the {@link UserRepository} interface.
+ * The class is autowired for dependency injection at startup.
+ * This keeps the persistence layer abstracted away from the domain (core)
+ * layer. This implementation is injected into the constructor of the
+ * {@link com.interview.faceit.usersservice.core.UserService} in the domain
+ * layer, which calls the interface CRUD methods.
+ */
 @Repository
 public class UserH2Repository implements UserRepository {
   private static String violatedConstraintMessage = "Either nickname or email already exists in database.";
@@ -40,6 +47,14 @@ public class UserH2Repository implements UserRepository {
     return user.get().toDomainObject();
   }
 
+  /**
+   * Retrieves a page (list) of users matching the criteria passed as
+   * arguments to the method. A {@link Specification} is created,
+   * combining multiple specifications for every field of the {@link UserEntity}.
+   *
+   * @return a {@link Page} object with the {@link User}s retrieved from the database.
+   * In case there were no matches, the Page object is empty.
+   */
   @Override
   public Page<User> getUsers(Pageable pageable,
                              UUID id,
@@ -87,6 +102,12 @@ public class UserH2Repository implements UserRepository {
     }
   }
 
+  /**
+   * Deletes a user by UUID or nickname if no UUID provided.
+   *
+   * @return the deleted user
+   * @throws NotFoundException if a user with such ID or nickname doesn't exist
+   */
   @Transactional
   @Override
   public User removeUser(UUID id, String nickname) throws NotFoundException {

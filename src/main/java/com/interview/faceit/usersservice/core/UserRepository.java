@@ -7,6 +7,10 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
 
+/**
+ * An interface to be implemented by a concrete class in the repository layer.
+ * This is following the Hexagonal architecture (or the Ports and Adapters design pattern).
+ */
 public interface UserRepository {
 
   User getUserById(UUID id) throws NotFoundException;

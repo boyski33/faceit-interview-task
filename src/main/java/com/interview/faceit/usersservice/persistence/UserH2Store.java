@@ -5,13 +5,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserH2Store extends CrudRepository<UserEntity, UUID>, JpaSpecificationExecutor<UserEntity> {
+/**
+ * A Spring Data repository extending the a pagination repository and
+ * a specification executor for execution of more complex queries using
+ * the {@link Specification} interface.
+ */
+public interface UserH2Store extends PagingAndSortingRepository<UserEntity, UUID>, JpaSpecificationExecutor<UserEntity> {
 
   @Override
   boolean existsById(UUID id);

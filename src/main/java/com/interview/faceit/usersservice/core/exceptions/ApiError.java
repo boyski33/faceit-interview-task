@@ -5,6 +5,11 @@ import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
+/**
+ * A class representing the error received by the client.
+ * It only contains the {@link HttpStatus}, timestamp and a
+ * custom message.
+ */
 public class ApiError {
 
   private HttpStatus status;
