@@ -34,9 +34,10 @@ public class UserService {
     UUID uuid = uuidFromString(id);
 
     Page<User> userPage = userRepository.getUsers(pageable, uuid, nickname, firstName, lastName, email, country);
+    int pageNumber = pageable.getPageNumber();
 
-    if (pageable.getPageNumber() >= userPage.getTotalPages()) {
-      // todo 404 or something like "not enough pages"
+    if (pageNumber > 0 && pageNumber >= userPage.getTotalPages()) {
+      // todo "page out of range"
       throw new UserAintAlrightException();
     }
 
