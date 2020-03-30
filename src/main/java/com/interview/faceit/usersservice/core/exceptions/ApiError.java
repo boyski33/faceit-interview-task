@@ -11,14 +11,9 @@ public class ApiError {
   private LocalDateTime timestamp;
   private String message;
 
-  ApiError(HttpStatus status) {
+  ApiError(HttpStatus status, String message) {
     this.status = status;
     this.timestamp = LocalDateTime.now();
-    this.message = "Unknown error";
-  }
-
-  ApiError(HttpStatus status, String message) {
-    this(status);
     this.message = message;
   }
 
