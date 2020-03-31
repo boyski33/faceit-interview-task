@@ -70,4 +70,16 @@ public class User {
     return country;
   }
 
+  @Override
+  public String toString() {
+    return "User{" +
+        "id=" + id +
+        ", firstName='" + firstName + '\'' +
+        ", lastName='" + lastName + '\'' +
+        ", nickname='" + nickname + '\'' +
+        ", password='" + password + '\'' +
+        ", email='" + email + '\'' +
+        ", country='" + country + '\'' +
+        '}';
+  }
 }

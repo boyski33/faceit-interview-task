@@ -1,25 +1,13 @@
-# Read Me First
-The following was discovered as part of building this project:
+## Project description
 
-* The original package name 'com.interview.faceit.users-service' is invalid and this project uses 'com.interview.faceit.usersservice' instead.
+## Interactive API documentation
+With the help of [Swagger](https://swagger.io/), an interactive API documentation
+is available at `<host>:<port>/swagger-ui.html#/user-controller`. You can view
+all available endpoints, what they do, their return types and parameters.
 
-# Getting Started
+By clicking the _Try it out_ button in the upper right-hand corner of each endpoint
+you can construct your own request and execute it again the server. You can then view
+the actual response below. 
 
-### Reference Documentation
-For further reference, please consider the following sections:
-
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/maven-plugin/)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#boot-features-jpa-and-spring-data)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#production-ready)
-
-### Guides
-The following guides illustrate how to use some features concretely:
-
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
-* [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
+## How to run
 
