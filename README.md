@@ -29,7 +29,7 @@ the purpose of contract regression tests, preventing the introduction of any
 backward-incompatible changes to the API.
 
 _Note_: The API tests run very slowly (around 3 seconds each) because the
-`ApplicationContext` is refreshed before each tests.
+`ApplicationContext` is refreshed before each test.
 
 ### Javadoc
 I've added necessary documentation to the classes and methods I deemed more
@@ -48,7 +48,7 @@ the actual response below.
 
 ## How to run
 
-#### From terminal
+#### In a local environment
 1. Have JDK 11 installed and $JAVA_HOME set accordingly
 2. Go to the root of the project
 3. Run `./mvnw clean install` (takes about 45-60 seconds 
