@@ -3,7 +3,7 @@
 ### Architecture
 I have decided to separate the repository layer, and I've kept the domain 
 and web layer together, as changing the database is fairly common. I've 
-followed the [Hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software\))
+followed the [Hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software))
 creating the necessary interfaces in the domain layer (e.g. `UserRepository`),
 and providing concrete implementations in the outer layers (e.g. `UserH2Repository`).
 That way the domain layer is abstracted away from the database, and one can
